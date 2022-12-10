@@ -19,10 +19,14 @@
   - 基带调制并显示波形
     1. 16FSK和16QAM调制
 <<<<<<< HEAD
+<<<<<<< HEAD
     2. 16QAM调制遵循星座图
     <p align="center">
     <img alt="alt text" src="doc\16QAM.png" />
 	  </p>
+=======
+    2. 16QAM调制遵循星座图![16QAM星座图](../doc/16QAM.png)
+>>>>>>> c9ba6fb27434b94bcc9034ab86a9b34ef760b3f5
 =======
     2. 16QAM调制遵循星座图![16QAM星座图](../doc/16QAM.png)
 >>>>>>> c9ba6fb27434b94bcc9034ab86a9b34ef760b3f5
