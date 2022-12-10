@@ -1,0 +1,29 @@
+%%1min模拟信号的采样量化
+clear all
+[x,fs]=audioread('music.mp3');
+sound(x,fs)%播放原音
+N=length(x);
+t=0:1/fs:(N-1)/fs;
+
+% noise_high=0.1*sin(2*pi*5000*t)%5kHz高频噪声
+% noise_low=sin(2*pi*100*t)%100Hz低频噪声
+x1=x(:,1);%抽取x第1声道
+start=44100*10;
+plot(x1(start:start+500,1));
+
+
+%%基带调制并显示波形
+
+
+
+
+
+%%高斯信道传输，信号解调
+
+
+
+
+%%抽样判决，统计误码率
+
+
+
