@@ -56,8 +56,8 @@ end
 figure
 subplot(2,1,1)
 carrier=repmat(sin(w_fsk*t)',symbols,1);
-title('载波波形')
 plot(carrier);
+title('载波波形')
 subplot(2,1,2)
 plot(fsk16);%画出16fsk的波形
 title('16fsk调制波形')
@@ -80,8 +80,8 @@ end
 figure
 subplot(2,1,1)
 carrier=repmat(cos(w_qam*t)',symbols,1);
-title('载波波形')
 plot(carrier);
+title('载波波形')
 subplot(2,1,2)
 plot(qam16);%画出16qam的波形
 title('16qam调制波形')
