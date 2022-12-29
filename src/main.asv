@@ -84,11 +84,23 @@ pcm1=quantization(sam1);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-symbol_rate=2;%码元速率
-f_anolog=0;%模拟载波频率
+symbol_rate=1;%码元速率,Baud/s
+fc=1;%模拟载波频率,Hz
+smooth=100;
+fsk16=fsk16mod(pcm1,symbol_rate,fc,smooth,true,1e4);
+qam16=qam16mod(pcm1,symbol_rate,fc,smooth,true,1e4);
+
+
+% %测试0~15调制波形
+%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%
 % test_in=[0,0,0,0,0,0,0,1,0,0,1,0,0,0,1,1,0,1,0,0,0,1,0,1,0,1,1,0,0,1,1,1,1,0,0,0,1,0,0,1,1,0,1,0,1,0,1,1,1,1,0,0,1,1,0,1,1,1,1,0,1,1,1,1];
 % cut=4;%将每4位切片
 % test_in=reshape(test_in,cut,[]);%[]自动计算维度大小
+%%%%%%%%%%%%%%%%%%%%%
+% %fsk16调制
+%%%%%%%%%%%%%%%%%%%%%
 % fsk16=[];
 % tao=0.01;
 % t1=0:tao:1-tao;
@@ -98,7 +110,9 @@ f_anolog=0;%模拟载波频率
 %     num=bin2dec(num2str(test_in(:,i)'));%读取4位数组转化为十进制，再对4bit信息位进行16fsk调制或者16qam调制
 %     fsk16=[fsk16,sin((num+1)*w_fsk*t1)];%用(num+1)进行频率调制
 % end
-
+%%%%%%%%%%%%%%%%%%%%%
+% %16fsk调制和载波对比
+%%%%%%%%%%%%%%%%%%%%%
 % figure
 % subplot(2,1,1)
 % carrier=repmat(sin(w_fsk*t1),[1 symbols]);
@@ -108,34 +122,15 @@ f_anolog=0;%模拟载波频率
 % subplot(2,1,2)
 % plot(t1,fsk16');%画出16fsk的波形
 % title('16fsk调制波形')
-
-tao=0.01;
-t1=0:tao*symbol_rate:1*symbol_rate-tao*symbol_rate;
-w_fsk=2*pi*1;%周期为
-fsk16=zeros(1,l_sam*(1/tao)*2);
-for i=0:l_sam-1
-    binstr= dec2bin(pcm1(i+1),8);%254='11111110'
-    num=bin2dec(binstr(1:4));%'1111'=15
-    fsk16(i*(1/tao*2)+1:(i+0.5)*(1/tao*2))=sin(((num+1)*w_fsk).*t1);%用(num+1)进行频率调制
-    num=bin2dec(binstr(5:8));%'1110'=14
-    fsk16((i+0.5)*(1/tao*2)+1:(i+1)*(1/tao*2))=sin(((num+1)*w_fsk).*t1);%用(num+1)进行频率调制
-end
-
-
-%验证调制正确性
-figure;
-i=1e4;
-t1=0:tao*symbol_rate:1*symbol_rate*4-tao*symbol_rate;
-plot(t1,fsk16(i*(1/tao*2)+1:(i+2)*(1/tao*2)));%输出3fc,10fc,5fc,2fc,即对应八进制02941(oct),由于0对应fc
-pcm1(i+1:i+2)%输出 41(dec)=029(oct),65(dec)=041(oct)
-
-
-%16QAM星座图
-constell_diag=[1 1;1 3;1 -1;1 -3;3 1;3 3;3 -1;3 -3;-1 1;-1 3;-1 -1;-1 -3;-3 1;-3 3;-3 -1;-3 -3];
-%能量归一化,(2,2)归一化模为1
-constell_diag=constell_diag./2/sqrt(2);
-
-
+%%%%%%%%%%%%%%%%%%%%%
+% %16QAM星座图
+%%%%%%%%%%%%%%%%%%%%%
+% constell_diag=[1 1;1 3;1 -1;1 -3;3 1;3 3;3 -1;3 -3;-1 1;-1 3;-1 -1;-1 -3;-3 1;-3 3;-3 -1;-3 -3];
+% %能量归一化,(2,2)归一化模为1
+% constell_diag=constell_diag./2/sqrt(2);
+%%%%%%%%%%%%%%%%%%%%%
+% %qam16调制
+%%%%%%%%%%%%%%%%%%%%%
 % qam16=[];
 % t2=0:0.001:1-0.001;
 % w_qam=2*pi*4;%周期为1/4,为了可视化更好看，使模拟周期×4=码元周期
@@ -145,8 +140,9 @@ constell_diag=constell_diag./2/sqrt(2);
 %     qam_sig=constell_diag(num+1,1)*cos(w_qam*t2)-constell_diag(num+1,2)*sin(w_qam*t2);
 %     qam16=[qam16,qam_sig];%用(num+1)进行频率调制
 % end
-
-
+%%%%%%%%%%%%%%%%%%%%%
+% %16qam调制和载波对比
+%%%%%%%%%%%%%%%%%%%%%
 % figure
 % subplot(2,1,1)
 % carrier=repmat(sin(w_qam*t2),[1 symbols]);
@@ -157,25 +153,7 @@ constell_diag=constell_diag./2/sqrt(2);
 % plot(t2,qam16');%画出16qam的波形
 % title('16qam调制波形')
 
-tao=0.01;
-t2=0:tao*symbol_rate:1*symbol_rate-tao*symbol_rate;
-w_qam=2*pi*1;%周期为
-qam16=zeros(1,l_sam*(1/tao)*2);
-for i=0:l_sam-1
-    binstr= dec2bin(pcm1(i+1),8);%254='11111110'
-    num=bin2dec(binstr(1:4));%'1111'=15
-    qam16(i*(1/tao*2)+1:(i+0.5)*(1/tao*2))=constell_diag(num+1,1)*cos(w_qam*t2)-constell_diag(num+1,2)*sin(w_qam*t2);%用(num+1)进行频率调制
-    num=bin2dec(binstr(5:8));%'1110'=14
-    qam16((i+0.5)*(1/tao*2)+1:(i+1)*(1/tao*2))=constell_diag(num+1,1)*cos(w_qam*t2)-constell_diag(num+1,2)*sin(w_qam*t2);%用(num+1)进行频率调制
-end
 
-
-%验证调制正确性
-figure;
-i=1e4;
-t2=0:tao*symbol_rate:1*symbol_rate*4-tao*symbol_rate;
-plot(t1,qam16(i*(1/tao*2)+1:(i+2)*(1/tao*2)));%输出3fc,10fc,5fc,2fc,即对应八进制02941(oct),由于0对应fc
-pcm1(i+1:i+2)%输出 41(dec)=029(oct),65(dec)=041(oct)
 
 
 
