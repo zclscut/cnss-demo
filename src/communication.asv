@@ -143,17 +143,14 @@ usrdata=get(handles.pushbutton2,'UserData');
 
 %如果非空，则播放音乐
 if isempty(usrdata)==0
-    %如果第三音轨长度不为0
-    if usrdata(7,3)~=0
-        l3=usrdata(7,3);
-        f3=usrdata(7,13);
-        % l4=usrdata(7,4);
-        % f4=usrdata(7,14);
-        x3=usrdata(3,1:l3);%取第三音轨
-        % x4=usrdata(4,1:l4);%取第四音轨
-        sound(x3,f3);
-        % sound(x4,f4);
-    end
+    l3=usrdata(7,3);
+    f3=usrdata(7,13);
+    % l4=usrdata(7,4);
+    % f4=usrdata(7,14);
+    x3=usrdata(1,1:l3);
+    % x4=usrdata(2,1:l2);
+    sound(x1,f1);
+    % sound(x2,f2);
 end
 
 
@@ -161,7 +158,6 @@ end
 % --- Executes on button press in radiobutton4.
 function radiobutton4_Callback(hObject, eventdata, handles)
 set(handles.radiobutton3,'value',0);%34互斥
-clear sound;
 % hObject    handle to radiobutton4 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -214,7 +210,7 @@ if isempty(filename)==0
     usrdata(7,1)=l1;
     usrdata(7,2)=l2;
     set(handles.pushbutton2,'UserData',usrdata);%左右声道，原音/下采样/接收，6条音轨
-    %disp(size(get(handles.pushbutton2,'UserData')));%用于调试代码
+    disp(size(get(handles.pushbutton2,'UserData')));
     
     ds_list=str2double(get(handles.popupmenu1,'String'));%downsample rate,44100的因数,参考下采样率:2,3,4,5,6,8
     ds_key=get(handles.popupmenu1,'Value');
@@ -258,9 +254,9 @@ if isempty(filename)==0
 
     start_plot=str2double(get(handles.edit9,'String'));
     axes(handles.axes1);
-    fsk16=fsk16mod(pcm1,symbol_rate,fc,smooth,false,start_plot);
+    fsk16=fsk16mod(pcm1,symbol_rate,fc,smooth,true,start_plot);
     axes(handles.axes2);
-    qam16=qam16mod(pcm1,symbol_rate,fc,smooth,false,start_plot);
+    qam16=qam16mod(pcm1,symbol_rate,fc,smooth,true,start_plot);
 
 end
 set(handles.pushbutton2,'String',"开始传输");
@@ -497,7 +493,6 @@ function edit10_CreateFcn(hObject, eventdata, handles)
 % --- Executes on button press in radiobutton5.
 function radiobutton5_Callback(hObject, eventdata, handles)
 set(handles.radiobutton6,'value',0);%56互斥
-clear sound;
 % hObject    handle to radiobutton5 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
