@@ -1,80 +1,80 @@
-slCharacterEncoding('UTF-8');
+
 %slCharacterEncoding('GBK');
-%%½â¾öÖĞÎÄÂÒÂëÎÊÌâ
+%%è§£å†³ä¸­æ–‡ä¹±ç é—®é¢˜
 %https://www.cnblogs.com/leoking01/p/8269516.html
 
-
-clear
-clc
+close all;
+clear all;
+slCharacterEncoding('UTF-8');
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%Ò»¡¢1minÄ£ÄâĞÅºÅµÄPCM²ÉÑùÁ¿»¯±àÂë
-% 1.ÓÃaÂÊ½øĞĞ·Ç¾ùÔÈÁ¿»¯
-% 2.Á¿»¯±àÂëºóÒ»¸öµçÆ½µÃµ½8bitÂë×Ö
+%%ä¸€ã€1minæ¨¡æ‹Ÿä¿¡å·çš„PCMé‡‡æ ·é‡åŒ–ç¼–ç 
+% 1.ç”¨aç‡è¿›è¡Œéå‡åŒ€é‡åŒ–
+% 2.é‡åŒ–ç¼–ç åä¸€ä¸ªç”µå¹³å¾—åˆ°8bitç å­—
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
-clear all
+symbol_rate=1;%ç å…ƒé€Ÿç‡,Baud/s
+fc=1;%æ¨¡æ‹Ÿè½½æ³¢é¢‘ç‡,Hz
+smooth=100;
 [x,fs_music]=audioread('music.wav');
-% sound(x,fs)%²¥·ÅÔ­Òô
+% sound(x,fs)%æ’­æ”¾åŸéŸ³
 N=length(x);
 t=0:1/fs_music:(N-1)/fs_music;
 
 
-x1=x(:,1);%³éÈ¡xµÚ1ÉùµÀ
-x2=x(:,2);%³éÈ¡xµÚ2ÉùµÀ
+x1=x(:,1);%æŠ½å–xç¬¬1å£°é“
+%x2=x(:,2);%æŠ½å–xç¬¬2å£°é“
 
-cut=15;%½ØÈ¡15s²âÊÔ
-% x1=x1(1:fs_music*cut);
+cut=15;%æˆªå–15sæµ‹è¯•
+x1=x1(1:fs_music*cut);
 % x2=x2(1:fs_music*cut);
-TestL=320;
-x1 = x1(10001:10000+TestL);   %²âÊÔĞÅºÅ
 
-start=fs_music*10;%´ÓµÚ10Ãë¿ªÊ¼²¥·Å
-inteval=fs_music/300;%½ØÈ¡³¤¶È,1/300s
+start=fs_music*10;%ä»ç¬¬10ç§’å¼€å§‹æ’­æ”¾
+inteval=fs_music/300;%æˆªå–é•¿åº¦,1/300s
 
-ds=4;%downsample rate,44100µÄÒòÊı,²Î¿¼ÏÂ²ÉÑùÂÊ:2,3,4,5,6,8
-fs=fs_music/ds;%Í¨ĞÅ²ÉÑù(8khz)Ô¶Ğ¡ÓÚÒôÆµ²¥·Å(40khz)²ÉÑù
-l_sam=floor(length(x1)/ds);%ÏòÏÂÈ¡Õû
-sam1=zeros(l_sam,1);%²ÉÑùĞÅºÅ
-sam2=zeros(l_sam,1);%²ÉÑùĞÅºÅ
+ds=4;%downsample rate,44100çš„å› æ•°,å‚è€ƒä¸‹é‡‡æ ·ç‡:2,3,4,5,6,8
+fs=fs_music/ds;%é€šä¿¡é‡‡æ ·(8khz)è¿œå°äºéŸ³é¢‘æ’­æ”¾(40khz)é‡‡æ ·
+l_sam=floor(length(x1)/ds);%å‘ä¸‹å–æ•´
+sam1=zeros(l_sam,1);%é‡‡æ ·ä¿¡å·
+%sam2=zeros(l_sam,1);%é‡‡æ ·ä¿¡å·
 for i =1:l_sam
     sam1(i)=x1(ds*i);
-    sam2(i)=x2(ds*i);
+%    sam2(i)=x2(ds*i);
 end
 
 
-% %ÊäÈë³éÑùĞÅºÅ,Êä³öÁ¿»¯±àÂë
+% %è¾“å…¥æŠ½æ ·ä¿¡å·,è¾“å‡ºé‡åŒ–ç¼–ç 
 pcm1=quantization(sam1);
+clear sam1;
+
+length(pcm1)
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%äºŒã€åŸºå¸¦è°ƒåˆ¶å¹¶æ˜¾ç¤ºæ³¢å½¢
+%1.16FSKå’Œ16QAMè°ƒåˆ¶
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%¶ş¡¢»ù´øµ÷ÖÆ²¢ÏÔÊ¾²¨ĞÎ
-%1.16FSKºÍ16QAMµ÷ÖÆ
-%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-symbol_rate=1;%ÂëÔªËÙÂÊ,Baud/s
-fc=10;%Ä£ÄâÔØ²¨ÆµÂÊ,Hz
-smooth=500;
 fsk16=fsk16mod(pcm1,symbol_rate,fc,smooth,false,1e4);
 qam16=qam16mod(pcm1,symbol_rate,fc,smooth,false,1e4);
 
+
 %%%%%%%%%%%%%%%%%%%%%
-% %16QAMĞÇ×ùÍ¼
+% %16QAMæ˜Ÿåº§å›¾
 %%%%%%%%%%%%%%%%%%%%%
 constell_diag=[1 1;1 3;1 -1;1 -3;3 1;3 3;3 -1;3 -3;-1 1;-1 3;-1 -1;-1 -3;-3 1;-3 3;-3 -1;-3 -3];
-% %ÄÜÁ¿¹éÒ»»¯,(2,2)¹éÒ»»¯Ä£Îª1
+% %èƒ½é‡å½’ä¸€åŒ–,(2,2)å½’ä¸€åŒ–æ¨¡ä¸º1
 constell_diag=constell_diag./2/sqrt(2);
 
 
@@ -86,110 +86,47 @@ constell_diag=constell_diag./2/sqrt(2);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%Èı¡¢¸ßË¹ĞÅµÀ´«Êä£¬ĞÅºÅ½âµ÷
+%%ä¸‰ã€é«˜æ–¯ä¿¡é“ä¼ è¾“ï¼Œä¿¡å·è§£è°ƒ
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% ¸ßË¹ĞÅµÀ´«Êä
+% é«˜æ–¯ä¿¡é“ä¼ è¾“
 w_fsk=2*pi*fc;
 w_qam=2*pi*fc;
 x_qam = qam16;
 x_fsk = fsk16;
-SNR_indB = -1;
+clear qam16; clear fsk16;
+SNR_indB = 5;
 x_qam = awgn(x_qam, SNR_indB);
 x_fsk = awgn(x_fsk, SNR_indB);
 
-% 16QAM½âµ÷
-tao=1/smooth;
-t2=0:tao/symbol_rate:1/symbol_rate-tao/symbol_rate;
-M = 16;
-y_qam = zeros(4, length(x_qam));
-symbols = TestL/2;  %²âÊÔĞÅºÅ³¤¶È
-for iter = 1 : symbols
-    y = x_qam(1, (iter-1)*length(t2)+1:iter*length(t2));
-    y_len = length(y);
-    detect = zeros(1,y_len);         % Ô¤ÖÃ¼ì²âĞÅºÅ
-    distance = zeros(1,M);              % ½âµ÷£º¾àÀë¼ì²â
-    I = y.*cos(w_qam*t2)*2;
-    Q = -y.*sin(w_qam*t2)*2;
-    
-    %Éè¼ÆµÍÍ¨ÂË²¨Æ÷
-    Fs=fs;
-    fp1=100;fs1=200;rs=10;rp=1;
-    wp=2*Fs*tan(2*pi*fp1/(2*Fs)); %Í¨´ø±ß½çÆµÂÊ
-    ws=2*Fs*tan(2*pi*fs1/(2*Fs)); %×è´ø±ß½çÆµÂÊ
-    [n,wn]=buttord(wp,ws,rp,rs,'s'); %ÂË²¨Æ÷µÄ½×ÊınºÍ-3dB¹éÒ»»¯½ØÖ¹ÆµÂÊWn
-    [b,a]=butter(n,wn,'s');
-    [num,den]=bilinear(b,a,Fs);  %Ë«ÏßĞÔ±ä»»
-    I=filter(num,den,I);
-    Q=filter(num,den,Q);
-    [h,w]=freqz(num,den,100,Fs);
-    figure(1)
-    plot(w,abs(h));
-    xlabel('ÆµÂÊ/Hz');
-    ylabel('·ùÖµ');
-    title('°ÍÌØÎÖË¹µÍÍ¨ÂË²¨Æ÷·ù¶ÈÌØĞÔ');
-    grid on;
-    for i = 1 : y_len
-        for j = 1 : M
-            distance(j) = sqrt((I(i)-constell_diag(j,1))^2 + (Q(i)-constell_diag(j,2))^2); %½ÓÊÕĞÅºÅµ½ËùÓĞĞÇ×ùµãµÄ¾àÀë
-        end
-        pos = find(distance == min(distance)); % ×îĞ¡¾àÀëĞÇ×ùµãµÄÎ»ÖÃ
-        detect(i) = pos(1) - 1; % ½âµ÷ºóµÄ·ûºÅ£¨Ê®½øÖÆ£©
-        y_qam(:, i+(iter-1)*y_len) = (dec2bin(detect(i), 4) - '0')';
-    end
-end
+% 16QAMè§£è°ƒ
+% fp1=10;fs1=30;rs=5;rp=0.5;
+fp1=50;fs1=100;rs=12;rp=0.5;
+y_qam = demodulate_16qam(x_qam,fs, w_qam, fp1, fs1, rs, rp, smooth, symbol_rate);
+clear x_qam;
 
-%16FSK½âµ÷
-%Éè¼ÆµÍÍ¨ÂË²¨Æ÷
-tao=1/smooth;
-t1=0:tao/symbol_rate:1/symbol_rate-tao/symbol_rate;
-Fs=fs;
+%16FSKè§£è°ƒ
+%è®¾è®¡ä½é€šæ»¤æ³¢å™¨
 fp1=1000;fs1=1200;rs=10;rp=2;
-wp=2*Fs*tan(2*pi*fp1/(2*Fs)); %Í¨´ø±ß½çÆµÂÊ
-ws=2*Fs*tan(2*pi*fs1/(2*Fs)); %×è´ø±ß½çÆµÂÊ
-[n,wn]=buttord(wp,ws,rp,rs,'s'); %ÂË²¨Æ÷µÄ½×ÊınºÍ-3dB¹éÒ»»¯½ØÖ¹ÆµÂÊWn
-[b,a]=butter(n,wn,'s');
-[num,den]=bilinear(b,a,Fs);  %Ë«ÏßĞÔ±ä»»
-[h,w]=freqz(num,den,100,Fs);
-figure(2)
-plot(w,abs(h));
-xlabel('ÆµÂÊ/Hz');
-ylabel('·ùÖµ');
-title('°ÍÌØÎÖË¹µÍÍ¨ÂË²¨Æ÷·ù¶ÈÌØĞÔ');
-grid on;
-y_fsk = zeros(4, length(x_fsk));
-for iter = 1 : symbols
-    y = x_fsk(1, (iter-1)*length(t1)+1:iter*length(t1));
-    y_len = length(y);
-    detect = zeros(1,y_len);         % Ô¤ÖÃ¼ì²âĞÅºÅ
-    distance = zeros(1,M);              % ½âµ÷£º¾àÀë¼ì²â
-    for j = 1 : M
-        y_ = y.*sin(j*w_fsk*t1);       
-        y_=filter(num,den,y_);
-%         
-        distance(j) = mean(abs(y_));        
-    end
-    for i = 1 : y_len                
-        pos = find(distance == max(distance)); % Ôñ´óÅĞ¾ö
-        detect(i) = pos(1) - 1; % ½âµ÷ºóµÄ·ûºÅ£¨Ê®½øÖÆ£©
-        y_fsk(:, i+(iter-1)*y_len) = (dec2bin(detect(i), 4) - '0')';
-    end
-end
-
-
+y_fsk = demodulate_16fsk1(x_fsk,fs, w_fsk, fp1, fs1, rs, rp, smooth, symbol_rate);
+clear x_fsk;
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%ËÄ¡¢³éÑùÅĞ¾ö£¬Í³¼ÆÎóÂëÂÊ
+%%å››ã€æŠ½æ ·åˆ¤å†³ï¼Œç»Ÿè®¡è¯¯ç ç‡
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
-part4(y_fsk,pcm1,x1)
-part4(y_qam,pcm1,x1)
+
+TestBg=10000;TestL=320;
+x1Test = x1(TestBg+1:TestBg+TestL);   %æµ‹è¯•ä¿¡å·
+[err1,sigDq1]=part4(y_fsk,pcm1,TestBg,x1Test,smooth,ds);
+[err2,sigDq2]=part4(y_qam,pcm1,TestBg,x1Test,smooth,ds);
+
