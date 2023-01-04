@@ -100,12 +100,12 @@ w_qam=2*pi*fc;
 x_qam = qam16;
 x_fsk = fsk16;
 clear qam16; clear fsk16;
-SNR_indB = 10;
-% x_qam = awgn(x_qam, SNR_indB);
-% x_fsk = awgn(x_fsk, SNR_indB);
+SNR_indB = 3;
+x_qam = awgn(x_qam, SNR_indB);
+x_fsk = awgn(x_fsk, SNR_indB);
 
 % 16QAM解调
-% fp1=10;fs1=30;rs=5;rp=0.5;
+%  fp1=10;fs1=30;rs=5;rp=0.5;
 fp1=50;fs1=100;rs=12;rp=0.5;
 y_qam = demodulate_16qam(x_qam,fs, w_qam, fp1, fs1, rs, rp, smooth, symbol_rate);
 clear x_qam;
@@ -114,6 +114,8 @@ clear x_qam;
 %设计低通滤波器
 fp1=1000;fs1=1200;rs=10;rp=2;
 y_fsk = demodulate_16fsk1(x_fsk,fs, w_fsk, fp1, fs1, rs, rp, smooth, symbol_rate);
+df = 10; M = 16;
+y_fsk2 = demodulate_16fsk2(x_fsk, fs, fc, smooth);
 clear x_fsk;
 
 
@@ -129,5 +131,6 @@ clear x_fsk;
 
 
 part4(y_fsk,pcm1,x1, smooth)
+part4(y_fsk2,pcm1,x1, smooth)
 part4(y_qam,pcm1,x1, smooth)
 
