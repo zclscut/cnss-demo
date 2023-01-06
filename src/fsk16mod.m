@@ -18,10 +18,10 @@ function waveform= fsk16mod(pcm_code,symbol_rate,freq_carrier,smooth,is_figure,p
         figure;
         i=plot_start;%i=1e4
         t1=0:tao/symbol_rate:1/symbol_rate*4-tao/symbol_rate;
-        plot(t1,fsk16(i*(1/tao*2)+1:(i+2)*(1/tao*2)));%输出3fc,10fc,5fc,2fc,即对应八进制02941(oct),由于0对应fc
+        plot(t1,fsk16(i*(1/tao*2)+1:(i+2)*(1/tao*2)));%输出3fc,10fc,5fc,2fc,即对应十六进制0x2941(hex),由于0对应fc
         xlabel('时间/s')
         title('16FSK调制')
-        pcm_code(i+1:i+2)%输出 41(dec)=029(oct),65(dec)=041(oct)
+        pcm_code(i+1:i+2)%输出 41(dec)=0x29(hex),65(dec)=0x41(hex)
     end
     waveform=fsk16;
 end
