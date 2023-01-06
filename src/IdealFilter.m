@@ -1,6 +1,6 @@
 function y = IdealFilter(x, fs, fpass, fstop)
-%UNTITLED3 此处显示有关此函数的摘要
-%   此处显示详细说明
+%IdealFilter 用于设计带通滤波器
+%   x: 输入信号; fs: 采样率; fpass: 通带起始频率; fstop: 通带截止频率
 
 fl = fpass;
 fh = fstop;
