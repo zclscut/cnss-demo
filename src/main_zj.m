@@ -29,7 +29,7 @@ t=0:1/fs_music:(N-1)/fs_music;
 x1=x(:,1);%抽取x第1声道
 %x2=x(:,2);%抽取x第2声道
 
-cut=15;%截取15s测试
+cut=3;%截取3s测试
 x1=x1(1:fs_music*cut);
 % x2=x2(1:fs_music*cut);
 
@@ -98,12 +98,12 @@ w_qam=2*pi*fc;
 x_qam = qam16;
 x_fsk = fsk16;
 clear qam16; clear fsk16;
-SNR_indB = 5;
+SNR_indB = 3;
 x_qam = awgn(x_qam, SNR_indB);
 x_fsk = awgn(x_fsk, SNR_indB);
 
 % 16QAM解调
-% fp1=10;fs1=30;rs=5;rp=0.5;
+%  fp1=10;fs1=30;rs=5;rp=0.5;
 fp1=50;fs1=100;rs=12;rp=0.5;
 y_qam = demodulate_16qam(x_qam,fs, w_qam, fp1, fs1, rs, rp, smooth, symbol_rate);
 clear x_qam;
@@ -112,6 +112,8 @@ clear x_qam;
 %设计低通滤波器
 fp1=1000;fs1=1200;rs=10;rp=2;
 y_fsk = demodulate_16fsk1(x_fsk,fs, w_fsk, fp1, fs1, rs, rp, smooth, symbol_rate);
+df = 10; M = 16;
+y_fsk2 = demodulate_16fsk2(x_fsk, fs, fc, smooth);
 clear x_fsk;
 
 
@@ -125,8 +127,9 @@ clear x_fsk;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-TestBg=10000;TestL=320;
+TestBg=10000;TestL=3200;
 x1Test = x1(TestBg+1:TestBg+TestL);   %测试信号
-[err1,sigDq1]=part4(y_fsk,pcm1,TestBg,x1Test,smooth,ds);
-[err2,sigDq2]=part4(y_qam,pcm1,TestBg,x1Test,smooth,ds);
+err1=part4(y_fsk,pcm1,TestBg,x1Test,fs_music,smooth,ds,'16fsk Coherent-Demodulation');
+err2=part4(y_fsk2,pcm1,TestBg,x1Test,fs_music,smooth,ds,'16fsk Envelope-Demodulation');
+err3=part4(y_qam,pcm1,TestBg,x1Test,fs_music,smooth,ds,'16qam Coherent-Demodulation');
 
