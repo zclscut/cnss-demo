@@ -1,7 +1,6 @@
 function y_fsk = demodulate_16fsk2(x_fsk, fs, fc, smooth)
-%UNTITLED 此处显示有关此函数的摘要
-%   此处显示详细说明
-% demodulate_16fsk1函数用于对16fsk信号进行非相干解调
+% demodulate_16fsk1 用于对16fsk信号进行非相干解调
+% x_fsk: 16fsk调制信号; fs: 采样率; fc: 载波频率; smooth: 单个码元长度
 
 Fs = smooth;
 M = 16;
