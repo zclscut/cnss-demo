@@ -21,13 +21,9 @@ for i=1:l_sam
     sam1(i)=x1(ds*i);
 end
 
-
 % %输入抽样信号,输出量化编码
 pcm1=quantization(sam1);
 clear sam1;
-
-length(pcm1)
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
