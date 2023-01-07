@@ -1,5 +1,5 @@
 <deployment-project plugin="plugin.ezdeploy" plugin-version="1.0">
-  <configuration build-checksum="1090293943" file="E:\华工\大三上\通信原理\class project\exe\CNSS.prj" location="E:\华工\大三上\通信原理\class project\exe" name="CNSS" preferred-package-location="E:\华工\大三上\通信原理\class project\exe\for_redistribution" preferred-package-type="package.type.exe" target="target.ezdeploy.standalone" target-name="Application Compiler">
+  <configuration build-checksum="2925165016" file="E:\华工\大三上\通信原理\class project\exe\CNSS.prj" location="E:\华工\大三上\通信原理\class project\exe" name="CNSS" preferred-package-location="E:\华工\大三上\通信原理\class project\exe\for_redistribution" preferred-package-type="package.type.exe" target="target.ezdeploy.standalone" target-name="Application Compiler">
     <param.appname>CNSS</param.appname>
     <param.icon>${PROJECT_ROOT}\CNSS_resources\icon.ico</param.icon>
     <param.icons>
@@ -17,11 +17,11 @@
 2. adjustable snr_db
 3. calculate the symbol error rate
 4. recommended .wav(highly) or .mp3</param.description>
-    <param.screenshot>${PROJECT_ROOT}\fourier_logo.jpg</param.screenshot>
+    <param.screenshot>E:\华工\大三上\通信原理\class project\img\fourier_logo.jpg</param.screenshot>
     <param.guid />
-    <param.installpath.string>\scut\CNSS\</param.installpath.string>
+    <param.installpath.string>\CNSS\</param.installpath.string>
     <param.installpath.combo>option.installpath.programfiles</param.installpath.combo>
-    <param.logo>${PROJECT_ROOT}\logo.jpg</param.logo>
+    <param.logo>E:\华工\大三上\通信原理\class project\img\logo.jpg</param.logo>
     <param.install.notes />
     <param.target.install.notes />
     <param.intermediate>${PROJECT_ROOT}\for_testing</param.intermediate>
@@ -57,9 +57,10 @@
 4. recommended .wav(highly) or .mp3</param.help.text>
     <unset>
       <param.version />
+      <param.authnamewatermark />
       <param.email />
+      <param.company />
       <param.guid />
-      <param.installpath.string />
       <param.installpath.combo />
       <param.install.notes />
       <param.target.install.notes />
