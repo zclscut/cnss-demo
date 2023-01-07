@@ -97,8 +97,14 @@ end
 
 
 function radiobutton1_Callback(hObject, eventdata, handles)
-set(handles.radiobutton2,'value',0);%取消其它解调选项
-set(handles.radiobutton3,'value',0);%取消其它解调选项
+if get(handles.radiobutton1,'value')==1
+    set(handles.radiobutton2,'value',0);%取消其它解调选项
+    set(handles.radiobutton3,'value',0);%取消其它解调选项
+else
+    set(handles.radiobutton1,'value',1);
+    set(handles.radiobutton2,'value',0);%取消其它解调选项
+    set(handles.radiobutton3,'value',0);%取消其它解调选项
+end
 
 
 
@@ -107,15 +113,25 @@ set(handles.radiobutton3,'value',0);%取消其它解调选项
 
 % --- Executes on button press in radiobutton2.
 function radiobutton2_Callback(hObject, eventdata, handles)
-set(handles.radiobutton1,'value',0);%取消其它解调选项
-set(handles.radiobutton3,'value',0);%取消其它解调选项
+if get(handles.radiobutton2,'value')==1
+    set(handles.radiobutton1,'value',0);%取消其它解调选项
+    set(handles.radiobutton3,'value',0);%取消其它解调选项
+else
+    set(handles.radiobutton1,'value',1);
+    set(handles.radiobutton3,'value',0);%取消其它解调选项
+end
 
 
 
 % --- Executes on button press in radiobutton3.
 function radiobutton3_Callback(hObject, eventdata, handles)
-set(handles.radiobutton1,'value',0);%取消其它解调选项
-set(handles.radiobutton2,'value',0);%取消其它解调选项
+if get(handles.radiobutton3,'value')==1
+    set(handles.radiobutton1,'value',0);%取消其它解调选项
+    set(handles.radiobutton2,'value',0);%取消其它解调选项
+else
+    set(handles.radiobutton1,'value',1);
+    set(handles.radiobutton2,'value',0);%取消其它解调选项
+end
 
 
 
