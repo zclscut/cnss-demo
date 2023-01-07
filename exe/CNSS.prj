@@ -1,19 +1,27 @@
 <deployment-project plugin="plugin.ezdeploy" plugin-version="1.0">
-  <configuration file="E:\华工\大三上\通信原理\class project\exe\CNSS.prj" location="E:\华工\大三上\通信原理\class project\exe" name="CNSS" target="target.ezdeploy.standalone" target-name="Application Compiler">
+  <configuration build-checksum="1090293943" file="E:\华工\大三上\通信原理\class project\exe\CNSS.prj" location="E:\华工\大三上\通信原理\class project\exe" name="CNSS" preferred-package-location="E:\华工\大三上\通信原理\class project\exe\for_redistribution" preferred-package-type="package.type.exe" target="target.ezdeploy.standalone" target-name="Application Compiler">
     <param.appname>CNSS</param.appname>
-    <param.icon />
-    <param.icons />
+    <param.icon>${PROJECT_ROOT}\CNSS_resources\icon.ico</param.icon>
+    <param.icons>
+      <file>${PROJECT_ROOT}\CNSS_resources\icon_48.png</file>
+      <file>${PROJECT_ROOT}\CNSS_resources\icon_32.png</file>
+      <file>${PROJECT_ROOT}\CNSS_resources\icon_24.png</file>
+      <file>${PROJECT_ROOT}\CNSS_resources\icon_16.png</file>
+    </param.icons>
     <param.version>1.0</param.version>
     <param.authnamewatermark>zhong chulong</param.authnamewatermark>
     <param.email>3482604559@qq.com</param.email>
     <param.company>scut</param.company>
-    <param.summary />
-    <param.description />
-    <param.screenshot />
+    <param.summary>communication system demo</param.summary>
+    <param.description>1. fsk16 &amp; qam16 modulation.
+2. adjustable snr_db
+3. calculate the symbol error rate
+4. recommended .wav(highly) or .mp3</param.description>
+    <param.screenshot>${PROJECT_ROOT}\fourier_logo.jpg</param.screenshot>
     <param.guid />
     <param.installpath.string>\scut\CNSS\</param.installpath.string>
     <param.installpath.combo>option.installpath.programfiles</param.installpath.combo>
-    <param.logo />
+    <param.logo>${PROJECT_ROOT}\logo.jpg</param.logo>
     <param.install.notes />
     <param.target.install.notes />
     <param.intermediate>${PROJECT_ROOT}\for_testing</param.intermediate>
@@ -41,18 +49,18 @@
 	 communication varargin 
  Input Arguments 
 	 -?  print help on how to use the application 
-	 varargin  input arguments</param.help.text>
+	 varargin  input arguments 
+ Description 
+ 	 1. fsk16 &amp; qam16 modulation.
+2. adjustable snr_db
+3. calculate the symbol error rate
+4. recommended .wav(highly) or .mp3</param.help.text>
     <unset>
-      <param.icon />
-      <param.icons />
       <param.version />
-      <param.summary />
-      <param.description />
-      <param.screenshot />
+      <param.email />
       <param.guid />
       <param.installpath.string />
       <param.installpath.combo />
-      <param.logo />
       <param.install.notes />
       <param.target.install.notes />
       <param.enable.clean.build />

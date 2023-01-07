@@ -1,0 +1,1 @@
+请前往releases下载依赖安装MyAppInstaller_mcr.exe
