@@ -424,7 +424,15 @@ if isempty(filename)==0
         clear fsk16;
         
         
-       
+        axes(handles.axes2);
+        plot(t1,x_fsk(i*(1/tao*2)+1:(i+2)*(1/tao*2)));
+        hold on
+        xlabel('时间/s');
+        title('接收模拟信号');
+        yyaxis right
+        sym_trans=[floor(pcm1_rc(i+1)/16),mod(pcm1_rc(i+1),16),floor(pcm1_rc(i+2)/16),mod(pcm1_rc(i+2),16)];
+        stem(1:4,sym_trans,'r',ShowBaseLine='off');
+        legend('','码元')
        
 %         %用于调试
 %         tt=cputime-tt;%程序计时变量
@@ -433,7 +441,7 @@ if isempty(filename)==0
 
         %16fsk包络检波
         y_fsk1 = demodulate_16fsk2(x_fsk, fs, fc, smooth);%y_fsk1表示左声道
-        
+        clear x_fsk;
         
         tt=cputime-tt;%程序计时变量
         set(handles.edit13,'String',num2str(tt,'%.2f'));
@@ -445,17 +453,6 @@ if isempty(filename)==0
         disp(['误码率为',num2str(err)]);%用于调试
         err=round(err*100,2);%err:百分制误码率,四舍五入到2位小数点
         set(handles.edit11,'String',num2str(err,'%.2f'))
-
-        axes(handles.axes2);
-        yyaxis left
-        plot(t1,x_fsk(i*(1/tao*2)+1:(i+2)*(1/tao*2)));
-        hold on
-        xlabel('时间/s');
-        title('接收模拟信号');
-        yyaxis right
-        sym_trans=[floor(pcm1_rc(i+1)/16),mod(pcm1_rc(i+1),16),floor(pcm1_rc(i+2)/16),mod(pcm1_rc(i+2),16)];
-        stem(1:4,sym_trans,'r',ShowBaseLine='off');
-        legend('','码元')
         
 %         %用于调试
 %         tt=cputime-tt;%程序计时变量
@@ -485,7 +482,7 @@ if isempty(filename)==0
 
         axes(handles.axes1);
         yyaxis left
-        plot(t1,qam16(i*(1/tao*2)+1:(i+2)*(1/tao*2)));
+        plot(t1,qam16(i*(1/tao*2)+1:(i+2)*(1/tao*2)));%输出3fc,10fc,5fc,2fc,即对应十六进制0x2941(hex),由于0对应fc
         hold on
         xlabel('时间/s');
         title('发射模拟信号');
@@ -497,13 +494,18 @@ if isempty(filename)==0
         w_qam=2*pi*fc;
         x_qam = awgn(qam16, snr);
         clear qam16;
-       
+        
+        axes(handles.axes2);
+        plot(t1,x_qam(i*(1/tao*2)+1:(i+2)*(1/tao*2)));
+        xlabel('时间/s')
+        title('接收模拟信号')
 
         tt=cputime;%程序计时变量
         %设计低通滤波器
         fp1=50;fs1=100;rs=12;rp=0.5;
         %16qam相干解调
         y_qam1 = demodulate_16qam(x_qam,fs, w_qam, fp1, fs1, rs, rp, smooth, symbol_rate);%y_qam1表示左声道
+        clear x_qam;
 
         tt=cputime-tt;%程序计时变量
         set(handles.edit13,'String',num2str(tt,'%.2f'));
@@ -514,17 +516,6 @@ if isempty(filename)==0
         disp(['误码率为',num2str(err)]);%用于调试
         err=round(err*100,2);%err:百分制误码率,四舍五入到2位小数点
         set(handles.edit11,'String',num2str(err,'%.2f'))
-
-        axes(handles.axes2);
-        yyaxis left
-        plot(t1,x_qam(i*(1/tao*2)+1:(i+2)*(1/tao*2)));
-        hold on
-        xlabel('时间/s');
-        title('接收模拟信号');
-        yyaxis right
-        sym_trans=[floor(pcm1_rc(i+1)/16),mod(pcm1_rc(i+1),16),floor(pcm1_rc(i+2)/16),mod(pcm1_rc(i+2),16)];
-        stem(1:4,sym_trans,'r',ShowBaseLine='off');
-        legend('','码元')
         
 %         %用于调试
 %         tt=cputime-tt;%程序计时变量
