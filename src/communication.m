@@ -22,7 +22,7 @@ function varargout = communication(varargin)
 
 % Edit the above text to modify the response to help communication
 
-% Last Modified by GUIDE v2.5 06-Jan-2023 23:29:26
+% Last Modified by GUIDE v2.5 09-Jan-2023 10:37:25
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -140,6 +140,8 @@ function radiobutton4_Callback(hObject, eventdata, handles)
 clear sound;%关闭其它播放播放
 set(handles.radiobutton5,'value',0);%关闭其它播放按钮
 set(handles.radiobutton6,'value',0);%关闭其它播放按钮
+set(handles.radiobutton7,'value',0);%关闭其它播放按钮
+
 usrdata=get(handles.pushbutton2,'UserData');
 
 %如果非空，且按钮被按下，则播放音乐
@@ -167,6 +169,7 @@ function radiobutton5_Callback(hObject, eventdata, handles)
 clear sound;%关闭其它播放播放
 set(handles.radiobutton4,'value',0);%关闭其它播放按钮
 set(handles.radiobutton6,'value',0);%关闭其它播放按钮
+set(handles.radiobutton7,'value',0);%关闭其它播放按钮
 
 usrdata=get(handles.pushbutton2,'UserData');
 
@@ -192,6 +195,7 @@ function radiobutton6_Callback(hObject, eventdata, handles)
 clear sound;%关闭其它播放播放
 set(handles.radiobutton4,'value',0);%关闭其它播放按钮
 set(handles.radiobutton5,'value',0);%关闭其它播放按钮
+set(handles.radiobutton7,'value',0);%关闭其它播放按钮
 
 usrdata=get(handles.pushbutton2,'UserData');
 
@@ -206,6 +210,43 @@ if get(handles.radiobutton6,'value')==1 && isempty(usrdata)==0
         x5=usrdata(5,1:L5);%取第五音轨
         % x6=usrdata(6,1:L6);%取第六音轨
         sound(x5,f5);
+        % sound(x6,f6);
+    end
+end
+
+% --- Executes on button press in radiobutton7.
+function radiobutton7_Callback(hObject, eventdata, handles)
+clear sound;%关闭其它播放播放
+set(handles.radiobutton4,'value',0);%关闭其它播放按钮
+set(handles.radiobutton5,'value',0);%关闭其它播放按钮
+set(handles.radiobutton6,'value',0);%关闭其它播放按钮
+
+usrdata=get(handles.pushbutton2,'UserData');
+
+%如果非空，且按钮被按下，则播放音乐
+if get(handles.radiobutton7,'value')==1 && isempty(usrdata)==0
+    %如果第5音轨长度usrdata(7,5)不为0
+    if usrdata(7,5)~=0
+        L5=usrdata(7,5);
+        
+        % L6=usrdata(7,6);
+        % f6=usrdata(7,16);
+        x5=usrdata(5,1:L5);%取第五音轨
+        % x6=usrdata(6,1:L6);%取第六音轨
+
+        ds_list=str2double(get(handles.popupmenu1,'String'));%downsample rate,44100的因数,参考下采样率:2,3,4,5,6,8
+        ds_key=get(handles.popupmenu1,'Value');
+        ds=ds_list(ds_key);
+       
+        n1=ds:ds:L5*ds;n2=1:L5*ds;
+        disp(['n1长:',num2str(length(n1)),',x5长:',num2str(length(x5)),',n2长:',num2str(length(n2))])
+        %指定备选插值方法：'linear'、'nearest'、'next'、'previous'、'pchip'、'cubic'、'v5cubic'、'makima' 或 'spline'
+        x5=interp1(n1,x5,n2,'linear');%内插，恢复成模拟信号
+        x5=smoothdata(x5,'sgolay');%Savitzky-Golay法滤波除噪
+
+        f5=usrdata(7,11);%原音乐频率，44100
+        sound(x5,f5);
+        disp(['播放频率为:',num2str(f5)]);
         % sound(x6,f6);
     end
 end
@@ -231,9 +272,11 @@ guidata(hObject, handles)
 set(handles.radiobutton4,'value',0);
 set(handles.radiobutton5,'value',0);
 set(handles.radiobutton6,'value',0);
+set(handles.radiobutton7,'value',0);
 set(handles.radiobutton4,'enable','off');
 set(handles.radiobutton5,'enable','off');
 set(handles.radiobutton6,'enable','off');
+set(handles.radiobutton7,'enable','off');
 %
 guidata(hObject, handles)
 set(handles.radiobutton1,'enable','off');
@@ -267,8 +310,8 @@ if isempty(filename)==0
     start_second=str2double(get(handles.edit3,'String'));
     start=fs_music*start_second;%从第start_second秒开始播放
 
-    x1=x1(start:start+inteval-1);
-    x2=x2(start:start+inteval-1);
+    x1=x1(start+1:start+inteval);%防止start输入0导致程序报错
+    x2=x2(start+1:start+inteval);%防止start输入0导致程序报错
     
     L1=length(x1);
     L2=length(x2);
@@ -575,6 +618,8 @@ set(handles.radiobutton3,'enable','on');
 set(handles.radiobutton4,'enable','on');
 set(handles.radiobutton5,'enable','on');
 set(handles.radiobutton6,'enable','on');
+set(handles.radiobutton7,'enable','on');
+
 
 
 
