@@ -440,7 +440,23 @@ if isempty(filename)==0
         usrdata(9,15)=fs;
         %usrdata(9,16)=fs;
 
-        
+        n1=ds:ds:L5*ds;n2=1:L5*ds;
+        %disp(['n1长:',num2str(length(n1)),',x5长:',num2str(length(x5)),',n2长:',num2str(length(n2))])
+        %指定备选插值方法：'linear'、'nearest'、'next'、'previous'、'pchip'、'cubic'、'v5cubic'、'makima' 或 'spline'
+        sam1=interp1(n1,sam1,n2,'linear');%内插，恢复成模拟信号
+        %sam1=smoothdata(sam1,'sgolay');%Savitzky-Golay法滤波除噪
+        sam1=smoothdata(sam1,'movmean',5);%窗长为5的平滑滤波
+
+
+        %将解调后的数字信号写入gui控件共用数据中
+        L7=length(sam1);
+        %L8=length(sam2);
+        usrdata(7,1:L7)=sam1;%左声道
+        %usrdata(8,1:L8)=sam2;%右声道
+        usrdata(9,7)=L5;
+        %usrdata(9,7)=L6;
+        usrdata(9,17)=fs_music;
+        %usrdata(9,18)=fs_music;
         set(handles.pushbutton2,'UserData',usrdata);
 
 
@@ -588,25 +604,6 @@ if isempty(filename)==0
         set(handles.pushbutton2,'UserData',usrdata);
         usrdata(9,15)=fs;
         %usrdata(9,16)=fs;
-
-
-        n1=ds:ds:L5*ds;n2=1:L5*ds;
-        %disp(['n1长:',num2str(length(n1)),',x5长:',num2str(length(x5)),',n2长:',num2str(length(n2))])
-        %指定备选插值方法：'linear'、'nearest'、'next'、'previous'、'pchip'、'cubic'、'v5cubic'、'makima' 或 'spline'
-        sam1=interp1(n1,sam1,n2,'linear');%内插，恢复成模拟信号
-        %sam1=smoothdata(sam1,'sgolay');%Savitzky-Golay法滤波除噪
-        sam1=smoothdata(sam1,'movmean',3);%窗长为3的平滑滤波
-
-
-        %将解调后的数字信号写入gui控件共用数据中
-        L7=length(sam1);
-        %L8=length(sam2);
-        usrdata(7,1:L7)=sam1;%左声道
-        %usrdata(8,1:L8)=sam2;%右声道
-        usrdata(9,7)=L7;
-        %usrdata(9,7)=L8;
-        usrdata(9,17)=fs_music;
-        %usrdata(9,18)=fs_music;
         set(handles.pushbutton2,'UserData',usrdata);
 
         
